@@ -1,0 +1,50 @@
+mutation CreateDemoData @transaction @auth(level: PUBLIC, insecureReason: "This mutation is used to seed the database with public demo data.") {
+  genre_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      name: "Action",
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      name: "Comedy",
+    }
+  ])
+  content_insertMany(data: [
+    {
+      id: "650e8400-e29b-41d4-a716-446655440000",
+      contentType: "Movie",
+      createdAt: "2024-01-01T00:00:00Z",
+      releaseYear: 2023,
+      title: "Sample Action Movie",
+      rating: "PG-13",
+      trailerUrl: "https://example.com/trailer1",
+      posterUrl: "https://example.com/poster1",
+      durationMinutes: 120,
+      numSeasons: null,
+      description: "An exciting action movie.",
+    },
+    {
+      id: "650e8400-e29b-41d4-a716-446655440001",
+      contentType: "TV Show",
+      createdAt: "2024-01-02T00:00:00Z",
+      releaseYear: 2022,
+      title: "Hilarious Comedy Show",
+      rating: "TV-PG",
+      trailerUrl: "https://example.com/trailer2",
+      posterUrl: "https://example.com/poster2",
+      durationMinutes: 30,
+      numSeasons: 3,
+      description: "A funny comedy TV show.",
+    }
+  ])
+  contentGenre_insertMany(data: [
+    {
+      contentId: "650e8400-e29b-41d4-a716-446655440000",
+      genreId: "550e8400-e29b-41d4-a716-446655440000",
+    },
+    {
+      contentId: "650e8400-e29b-41d4-a716-446655440001",
+      genreId: "550e8400-e29b-41d4-a716-446655440001",
+    }
+  ])
+}

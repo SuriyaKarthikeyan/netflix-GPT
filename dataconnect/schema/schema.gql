@@ -1,0 +1,52 @@
+type User @table {
+  username: String!
+  email: String!
+  createdAt: Timestamp!
+  displayName: String
+  photoUrl: String
+  lastLogin: Timestamp
+}
+
+type Content @table {
+  title: String!
+  contentType: String!
+  releaseYear: Int!
+  createdAt: Timestamp!
+  description: String
+  posterUrl: String
+  trailerUrl: String
+  durationMinutes: Int
+  numSeasons: Int
+  rating: String
+}
+
+type Genre @table {
+  name: String!
+}
+
+type ContentGenre @table(key: ["content", "genre"]) {
+  content: Content!
+  genre: Genre!
+}
+
+type Watchlist @table {
+  user: User!
+  content: Content!
+  addedAt: Timestamp!
+}
+
+type ViewingHistory @table {
+  user: User!
+  content: Content!
+  watchedAt: Timestamp!
+  progressSeconds: Int!
+  finishedWatching: Boolean
+}
+
+type Rating @table {
+  user: User!
+  content: Content!
+  score: Int!
+  ratedAt: Timestamp!
+  reviewText: String
+}

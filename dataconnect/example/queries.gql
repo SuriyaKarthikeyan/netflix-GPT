@@ -1,0 +1,40 @@
+mutation AddToWatchlist($contentId: UUID!) @auth(level: USER) {
+  watchlist_insert(data: {
+    contentId: $contentId,
+    userId_expr: "auth.uid",
+    addedAt_expr: "request.time"
+  })
+}
+
+query GetWatchlist @auth(level: USER) {
+  watchlists(where: {userId_expr: "auth.uid"}) {
+    id
+    content {
+      id
+      title
+      posterUrl
+    }
+  }
+}
+
+mutation MarkAsWatched($contentId: UUID!, $progressSeconds: Int!, $finishedWatching: Boolean!) @auth(level: USER) {
+  viewingHistory_insert(data: {
+    contentId: $contentId,
+    userId_expr: "auth.uid",
+    progressSeconds: $progressSeconds,
+    finishedWatching: $finishedWatching,
+    watchedAt_expr: "request.time"
+  })
+}
+
+query GetContentByGenre($genreName: String!) @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  genres(where: {name: {eq: $genreName}}) {
+    id
+    name
+    contents_via_ContentGenre {
+      id
+      title
+      posterUrl
+    }
+  }
+}
