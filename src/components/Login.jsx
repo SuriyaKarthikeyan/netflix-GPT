@@ -1,11 +1,16 @@
 import Header from './Header.jsx';
 import {useState, useRef} from "react";
 import {validateStatus} from "../utils/validate";
- import {createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+ import {createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
  import {auth} from "../utils/firebase";
+ import {useNavigate} from "react-router-dom";
+ import {useDispatch} from "react-redux";
+ import {addUser} from "../utils/createSlice.js";
 const Login = () =>
 {
     let returnedMsg = '';
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isLoginForm, setIsLoginForm] = useState(true);
     const fullname = useRef(null);
     const email = useRef(null);
@@ -22,12 +27,31 @@ const Login = () =>
             //if it is a SignUp Form
               returnedMsg = validateStatus(email.current.value,password.current.value,fullname.current.value);
               if(returnedMsg === null) 
-              { //valid Signup Form
+              { 
+               //valid Signup Form
                createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-                .then((userCredential) => {
+                .then((userCredential) => 
+                    {
                     const user = userCredential.user;
                     console.log("Successful Sign Up", user);
-                })
+                    //After Successful Signup display Name on the redux store got updated with the full name on the signup form
+                    updateProfile(auth.currentUser, 
+                    {
+                    displayName: fullname.current.value
+                    }).then(() => {
+                        // Profile updated!
+                        const {uid,email,displayName} = auth.currentUser;
+                        dispatch(addUser({
+                              uid: uid,
+                              email: email,
+                              displayName: displayName
+                            }));
+                            navigate("/browse");
+                    }).catch((error) => {
+                        // An error occurred
+                          setErrorMsg(error.message);
+                    });
+                   })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
@@ -45,6 +69,7 @@ const Login = () =>
                 .then((userCredential) => {
                     const user = userCredential.user;
                     console.log("Successful Sign In", user);
+                    navigate("/browse");
             })
             .catch((error) => {
              const errorCode = error.code;
@@ -58,7 +83,7 @@ const Login = () =>
     return (
         <>
             <div className="relative"> 
-              <Header />
+              <Header context="login"/>
               <img src="https://assets.nflxext.com/ffe/siteui/vlv3/1d8a9cc6-dbed-4bcc-9e40-d71d8cc8340b/web/IN-en-20251006-TRIFECTA-perspective_a6194aef-34d2-4b3a-b93f-d9cb871bdcd0_medium.jpg" alt="bg" />    
               <form onSubmit = {(e) => e.preventDefault() } className="absolute top-2/12 left-2/6 bg-black opacity-90 text-white px-6 py-6 flex flex-col w-[500px] ">
                

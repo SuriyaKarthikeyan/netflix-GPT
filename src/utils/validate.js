@@ -3,10 +3,12 @@ export const validateStatus = (email, password, fullname=null) => {
     const emailMsg = regex.test(email);
     
     const passwordMsg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/.test(password);
-
+   
     if(fullname !== null) {
+     
       let nameRegex = /^[a-zA-Z][a-zA-Z]{5,19}$/;
       const fullNameMsg = nameRegex.test(fullname);
+     
       if(!fullNameMsg) return "Your Full Name is not Valid";
     }
     
