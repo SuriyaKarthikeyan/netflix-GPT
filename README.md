@@ -16,3 +16,5 @@
 - Login Component - Aded Header Component plus Sign In Form as well as Sign up form
 - Form Validation
 - useRef Hook
+- Setup FireBase and deploy firebase and have a live url for the site.
+- Signup/Signin authentication using firebase
