@@ -49,7 +49,7 @@
 - Create redux store for the movies which stores the movies list details.
 - Dispatch an action to add movies list which we get from the API call - on the redux store.
 - Here due to overlimit usage of the API call on Rapid API, we have used omdbapi - which gives us a simple list of movie details.
-- For this api - no just create a user account and get the api key in our email address. And use that api key to call the api and you will get the list of movies.
+- For this api - just create a user account and get the api key in our email address. And use that api key to call the api and you will get the list of movies.
 - After that - store that movie list in the redux store we previously created.
 
 # Components under Browse Page

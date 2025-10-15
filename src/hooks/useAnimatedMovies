@@ -1,0 +1,25 @@
+
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {addAnimatedMovies} from "../utils/createMoviesSlice.js";
+
+const useAnimatedMovies = () => {
+   
+   const dispatch = useDispatch();
+    const getAnimatedMovieDetails = async() => {
+       
+       const data = await fetch("https://www.omdbapi.com/?s=harry%20potter&type=movie&apikey=bacc90f2"); 
+       const json = await data.json();
+       console.log(json);
+
+       dispatch(addAnimatedMovies(json));
+
+    }
+    useEffect(()=> {
+        getAnimatedMovieDetails();
+
+    },[]);
+
+}
+
+export default useAnimatedMovies;
