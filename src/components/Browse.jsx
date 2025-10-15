@@ -1,10 +1,17 @@
 import Header from './Header.jsx';
+import useMoviesList from "../hooks/useMoviesList";
+import MainContainer from "./MainContainer.jsx";
+import SecondaryContainer from "./SecondaryContainer.jsx";
 const Browse = () =>
 {
+
+    useMoviesList();
     return (
-        <div className="flex justify-between">
+        <div>
         
             <Header context="browse" />
+            <MainContainer />
+            <SecondaryContainer />
           
         </div>
     )
